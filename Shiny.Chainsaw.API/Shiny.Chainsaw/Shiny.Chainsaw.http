@@ -1,0 +1,6 @@
+@Shiny.Chainsaw_HostAddress = http://localhost:5028
+
+GET {{Shiny.Chainsaw_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
