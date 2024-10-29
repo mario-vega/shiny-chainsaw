@@ -9,7 +9,7 @@
         public required string Address { get; set; }
         public bool Admin { get; set; }
         public required string EMail { get; set; }
-        public required string UserName { get; set; }
+        public required string Username { get; set; }
         public required string Password { get; set; }
 
 

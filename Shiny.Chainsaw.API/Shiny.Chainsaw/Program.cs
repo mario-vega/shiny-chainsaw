@@ -1,3 +1,8 @@
+using Shiny.Chainsaw.Repository;
+using Shiny.Chainsaw.Repository.DbContext;
+using System.Data;
+using System.Reflection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IDapperContext>(s => new DapperContext(builder.Configuration));
+builder.Services.AddScoped<ICheckinHistoryRepository, CheckinHistoryRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IPaymentHistoryRepository, PaymentHistoryRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
