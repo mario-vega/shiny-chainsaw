@@ -5,18 +5,18 @@ using System.Data;
 
 namespace Shiny.Chainsaw.Repository
 {
-	public class CheckinHistoryRepository : ICheckinHistoryRepository
+	public class CheckinRepository : ICheckinRepository
 	{
 		private readonly IDapperContext _dbcontext;
 
-		public CheckinHistoryRepository(IDapperContext context)
+		public CheckinRepository(IDapperContext context)
 		{
 			_dbcontext = context;
 		}
 
-		public async void Add(CheckinHistory checkin)
+		public async Task<int> Add(Checkin checkin)
 		{
-			var query = @"INSERT INTO [dbo].[payment_history] ([Date], [Amount], [IdCustomer], [IdUser]) VALUES (@Name, @Telephone, @TelephoneEmergency);";
+			var query = @"INSERT INTO [dbo].[checkin_history] ([Date], [IdCustomer]) OUTPUT INSERTED.Id VALUES (@Date, @IdCustomer);";
 
 			var parameters = new DynamicParameters();
 			parameters.Add("Date", checkin.Date, DbType.DateTime);
@@ -24,11 +24,11 @@ namespace Shiny.Chainsaw.Repository
 
 			using (IDbConnection db = _dbcontext.ConnectionCreate())
 			{
-				await db.ExecuteAsync(query, parameters);
+				return await db.QuerySingleAsync<int>(query, parameters);
 			}
 		}
 
-		public Task<IEnumerable<CheckinHistory>> GetByCustomer(int id)
+		public Task<IEnumerable<Checkin>> GetByCustomer(int id)
 		{
 			throw new NotImplementedException();
 		}

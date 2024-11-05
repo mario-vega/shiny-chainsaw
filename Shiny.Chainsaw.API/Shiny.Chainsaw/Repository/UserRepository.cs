@@ -15,9 +15,10 @@ namespace Shiny.Chainsaw.Repository
 			_dbcontext = dbcontext;
 		}
 
-		public async void Add(User user)
+		public async Task<int> Add(User user)
 		{
 			var query = @"INSERT INTO [shiny-chainsaw].[dbo].[users] (FirstName, LastName, Telephone, Address, EMail, Admin, Username, Password)
+							OUTPUT INSERTED.Id
 							VALUES(@FirstName, @LastName, @Telephone, @Address, @EMail, @Admin, @Username, @Password);";
 
 			var parameters = new DynamicParameters();
@@ -32,13 +33,22 @@ namespace Shiny.Chainsaw.Repository
 
 			using (IDbConnection db = _dbcontext.ConnectionCreate())
 			{
-				await db.ExecuteAsync(query, parameters);
+				return await db.QuerySingleAsync<int>(query, parameters);
 			}
 		}
 
-		public User Get(int id)
+		public async Task<User> Get(int id)
 		{
-			throw new NotImplementedException();
+			User response;
+			var parameters = new DynamicParameters();
+			parameters.Add("Id", id, DbType.Int32);
+
+			using (IDbConnection db = _dbcontext.ConnectionCreate())
+			{
+				response = await db.QueryFirstAsync<User>(sql: @"SELECT Id, FirstName, LastName, Telephone, Address, EMail, Admin, Username, Password
+							FROM [shiny-chainsaw].[dbo].[users] WHERE [Id] = @Id", parameters, commandType: CommandType.Text);
+			}
+			return response;
 		}
 
 		public async Task<IEnumerable<User>> Get()

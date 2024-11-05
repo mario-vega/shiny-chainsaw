@@ -14,9 +14,9 @@ namespace Shiny.Chainsaw.Repository
 			_dbcontext = context;    
         }
 
-        public async void Add(Customer customer)
+        public async Task<int> Add(Customer customer)
 		{
-			var query = @"INSERT INTO [dbo].[customers] ([Name], [Telephone], [TelephoneEmergency]) VALUES (@Name, @Telephone, @TelephoneEmergency);";
+			var query = @"INSERT INTO [dbo].[customers] ([Name], [Telephone], [TelephoneEmergency]) OUTPUT INSERTED.Id VALUES (@Name, @Telephone, @TelephoneEmergency);";
 
 			var parameters = new DynamicParameters();
 			parameters.Add("Name", customer.Name, DbType.String);
@@ -25,7 +25,7 @@ namespace Shiny.Chainsaw.Repository
 
 			using (IDbConnection db = _dbcontext.ConnectionCreate())
 			{
-				await db.ExecuteAsync(query, parameters);
+				return await db.QuerySingleAsync(query, parameters);
 			}
 		}
 

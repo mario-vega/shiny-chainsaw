@@ -5,16 +5,16 @@ using System.Data;
 
 namespace Shiny.Chainsaw.Repository
 {
-	public class PaymentHistoryRepository : IPaymentHistoryRepository
+	public class PaymentRepository : IPaymentRepository
 	{
 		private readonly IDapperContext _dbcontext;
 
-		public PaymentHistoryRepository(IDapperContext context)
+		public PaymentRepository(IDapperContext context)
 		{
 			_dbcontext = context;
 		}
 
-		public async void Add(PaymentHistory paymentHistory)
+		public async void Add(Payment paymentHistory)
 		{
 			var query = @"INSERT INTO [dbo].[payment_history] ([Date], [Amount], [IdCustomer], [IdUser]) VALUES (@Name, @Telephone, @TelephoneEmergency);";
 
@@ -30,11 +30,11 @@ namespace Shiny.Chainsaw.Repository
 			}
 		}
 
-		public async Task<IEnumerable<PaymentHistory>> GetMonthly(DateTime refDate)
+		public async Task<IEnumerable<Payment>> GetMonthly(DateTime refDate)
 		{
 			var initialDate = new DateTime(refDate.Year, refDate.Month, 1);
 			var endDate = initialDate.AddMonths(1);
-			IEnumerable<PaymentHistory> response;
+			IEnumerable<Payment> response;
 
 			var parameters = new DynamicParameters();
 			parameters.Add("initialDate", initialDate, DbType.DateTime);
@@ -42,12 +42,12 @@ namespace Shiny.Chainsaw.Repository
 
 			using (IDbConnection db = _dbcontext.ConnectionCreate())
 			{
-				response = await db.QueryAsync<PaymentHistory>(sql: @"SELECT [Id], [Date], [Amount], [IdCustomer], [IdUser] FROM [shiny-chainsaw].[dbo].[payment_history] WHERE [Date] >= @initialDate AND [Date] < @endDate;", commandType: CommandType.Text);
+				response = await db.QueryAsync<Payment>(sql: @"SELECT [Id], [Date], [Amount], [IdCustomer], [IdUser] FROM [shiny-chainsaw].[dbo].[payment_history] WHERE [Date] >= @initialDate AND [Date] < @endDate;", commandType: CommandType.Text);
 			}
 			return response;
 		}
 
-		public async void Remove(PaymentHistory paymentHistory)
+		public async void Remove(Payment paymentHistory)
 		{
 			var query = @"DELETE FROM [dbo].[payment_history] WHERE [Id] = @Id;";
 

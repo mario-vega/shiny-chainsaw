@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shiny.Chainsaw.Model;
 using Shiny.Chainsaw.Repository;
-using Shiny.Chainsaw.Repository.DbContext;
 
 namespace Shiny.Chainsaw.Controllers
 {
@@ -16,10 +15,30 @@ namespace Shiny.Chainsaw.Controllers
         }
 
         [HttpGet]
-		public async Task<IEnumerable<User>> GetUsers()
+		[Route("GetUsers")]
+		public async Task<IActionResult> GetUsers()
 		{
 			var users = await _repository.Get();
-			return users;
+			return Ok(users);		}
+
+		[HttpGet]
+		public async Task<IActionResult> Get(int id)
+		{
+			if (id == 0)
+				return BadRequest();
+
+			var user = await _repository.Get(id);
+			return Ok(user);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Add([FromBody] User user)
+		{
+			if (user == null)
+				return BadRequest();
+
+			var id = await _repository.Add(user);
+			return CreatedAtAction(nameof(Get), new { id }, user);
 		}
 	}
 }

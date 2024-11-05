@@ -1,6 +1,6 @@
 ﻿namespace Shiny.Chainsaw.Model
 {
-	public class CheckinHistory
+	public class Checkin
 	{
 		public int Id { get; set; }
 		public DateTime Date { get; set; }
