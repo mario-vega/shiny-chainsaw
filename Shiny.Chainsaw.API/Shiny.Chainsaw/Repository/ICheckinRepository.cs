@@ -1,4 +1,4 @@
-﻿using Shiny.Chainsaw.Model;
+﻿using Shiny.Chainsaw.DTO;
 
 namespace Shiny.Chainsaw.Repository
 {

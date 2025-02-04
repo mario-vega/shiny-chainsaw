@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shiny.Chainsaw.Model;
+using Shiny.Chainsaw.DTO;
 using Shiny.Chainsaw.Repository;
 
 namespace Shiny.Chainsaw.Controllers
@@ -38,27 +38,6 @@ namespace Shiny.Chainsaw.Controllers
 					return BadRequest();
 
 				var user = await _repository.Get(id);
-				return Ok(user);
-			}
-			catch (Exception)
-			{
-				return StatusCode(StatusCodes.Status500InternalServerError);
-			}
-		}
-
-		[HttpGet]
-		public async Task<IActionResult> Get(string username, string password)
-		{
-			try
-			{
-				if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-					return BadRequest();
-
-				var user = await _repository.Get(username, password);
-
-				if (user == null)
-					return Unauthorized();
-
 				return Ok(user);
 			}
 			catch (Exception)

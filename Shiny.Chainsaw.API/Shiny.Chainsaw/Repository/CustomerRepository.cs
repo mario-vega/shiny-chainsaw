@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Shiny.Chainsaw.Model;
+using Shiny.Chainsaw.DTO;
 using Shiny.Chainsaw.Repository.DbContext;
 using System.Data;
 

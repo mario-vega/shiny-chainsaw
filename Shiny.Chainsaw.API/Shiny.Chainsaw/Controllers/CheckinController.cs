@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shiny.Chainsaw.Model;
+using Shiny.Chainsaw.DTO;
 using Shiny.Chainsaw.Repository;
 
 namespace Shiny.Chainsaw.Controllers

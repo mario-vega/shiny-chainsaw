@@ -1,4 +1,4 @@
-﻿using Shiny.Chainsaw.Model;
+﻿using Shiny.Chainsaw.DTO;
 using Shiny.Chainsaw.Repository.DbContext;
 using System.Data;
 using System.Data.SqlClient;
@@ -51,12 +51,12 @@ namespace Shiny.Chainsaw.Repository
 			return response;
 		}
 
-		public async Task<User> Get(string username, string password)
+		public async Task<User> Get(LoginRequest loginRequest)
 		{
 			User response;
 			var parameters = new DynamicParameters();
-			parameters.Add("Username", username, DbType.String);
-			parameters.Add("Password", password, DbType.String);
+			parameters.Add("Username", loginRequest.Username, DbType.String);
+			parameters.Add("Password", loginRequest.Password, DbType.String);
 
 			using (IDbConnection db = _dbcontext.ConnectionCreate())
 			{

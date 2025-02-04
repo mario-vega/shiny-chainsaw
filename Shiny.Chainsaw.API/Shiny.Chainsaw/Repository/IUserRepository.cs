@@ -1,4 +1,4 @@
-﻿using Shiny.Chainsaw.Model;
+﻿using Shiny.Chainsaw.DTO;
 
 namespace Shiny.Chainsaw.Repository
 {
@@ -7,7 +7,7 @@ namespace Shiny.Chainsaw.Repository
 		public Task<int> Add(User user);
 		public Task Update(User user);
 		public Task<User> Get(int id);
-		public Task<User> Get(string username, string password);
+		public Task<User> Get(LoginRequest loginRequest);
 		public Task<IEnumerable<User>> Get();
 	}
 }

@@ -1,4 +1,4 @@
-﻿namespace Shiny.Chainsaw.Model
+﻿namespace Shiny.Chainsaw.DTO
 {
 	public class User
 	{
