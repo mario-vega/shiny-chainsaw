@@ -18,27 +18,88 @@ namespace Shiny.Chainsaw.Controllers
 		[Route("GetUsers")]
 		public async Task<IActionResult> GetUsers()
 		{
-			var users = await _repository.Get();
-			return Ok(users);		}
+			try
+			{
+				var users = await _repository.Get();
+				return Ok(users);
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError);
+			}
+		}
 
 		[HttpGet]
 		public async Task<IActionResult> Get(int id)
 		{
-			if (id == 0)
-				return BadRequest();
+			try
+			{
+				if (id == 0)
+					return BadRequest();
 
-			var user = await _repository.Get(id);
-			return Ok(user);
+				var user = await _repository.Get(id);
+				return Ok(user);
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError);
+			}
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Get(string username, string password)
+		{
+			try
+			{
+				if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+					return BadRequest();
+
+				var user = await _repository.Get(username, password);
+
+				if (user == null)
+					return Unauthorized();
+
+				return Ok(user);
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError);
+			}
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> Add([FromBody] User user)
 		{
-			if (user == null)
-				return BadRequest();
+			try
+			{
+				if (user == null)
+					return BadRequest();
 
-			var id = await _repository.Add(user);
-			return CreatedAtAction(nameof(Get), new { id }, user);
+				var id = await _repository.Add(user);
+				return CreatedAtAction(nameof(Get), new { id }, user);
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError);
+			}
+		}
+
+		[HttpPatch]
+		public async Task<IActionResult> Update([FromBody]User user)
+		{
+			try
+			{
+				if (user == null)
+					return BadRequest();
+
+				await _repository.Update(user);
+
+				return NoContent();
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError);
+			}
 		}
 	}
 }

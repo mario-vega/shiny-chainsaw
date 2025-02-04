@@ -51,6 +51,22 @@ namespace Shiny.Chainsaw.Repository
 			return response;
 		}
 
+		public async Task<User> Get(string username, string password)
+		{
+			User response;
+			var parameters = new DynamicParameters();
+			parameters.Add("Username", username, DbType.String);
+			parameters.Add("Password", password, DbType.String);
+
+			using (IDbConnection db = _dbcontext.ConnectionCreate())
+			{
+				response = await db.QueryFirstAsync<User>(sql: @"SELECT Id, FirstName, LastName, Telephone, Address, EMail, Admin, Username, Password
+							FROM [shiny-chainsaw].[dbo].[users] WHERE [Username] = @Username AND [Password] = @Password", parameters, commandType: CommandType.Text);
+			}
+			return response;
+		}
+
+
 		public async Task<IEnumerable<User>> Get()
 		{
 			IEnumerable<User> response;
@@ -62,7 +78,7 @@ namespace Shiny.Chainsaw.Repository
 			return response;
 		}
 
-		public async void Update(User user)
+		public async Task Update(User user)
 		{
 			var query = @"UPDATE [shiny-chainsaw].[dbo].[users] SET FirstName=@FirstName, LastName=@LastName, Telephone=@Telephone, Address=@Address, EMail=@EMail, Admin=@Admin, Username=@Username, Password=@Password
 						WHERE Id=@Id;";

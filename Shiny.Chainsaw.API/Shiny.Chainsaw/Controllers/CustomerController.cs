@@ -18,21 +18,35 @@ namespace Shiny.Chainsaw.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Get(int id)
 		{
-			if (id == 0)
-				return BadRequest();
+			try
+			{
+				if (id == 0)
+					return BadRequest();
 
-			Customer customer = await _repository.Get(id);
-			return Ok(customer);
+				Customer customer = await _repository.Get(id);
+				return Ok(customer);
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError);
+			}
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> AddCustomer([FromBody] Customer customer)
 		{
-			if (customer == null)
-				return BadRequest();
-			
-			int id = await _repository.Add(customer);
-			return CreatedAtAction(nameof(AddCustomer), new { id }, customer);
+			try
+			{
+				if (customer == null)
+					return BadRequest();
+
+				int id = await _repository.Add(customer);
+				return CreatedAtAction(nameof(AddCustomer), new { id }, customer);
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError);
+			}
 		}
 	}
 }
