@@ -30,7 +30,7 @@ namespace Shiny.Chainsaw.Services
 		{
 			var key = Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecurityKey"]);
 			var secret = new SymmetricSecurityKey(key);
-			return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+			return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256Signature);
 		}
 
 		private List<Claim> GetClaims(User user)
