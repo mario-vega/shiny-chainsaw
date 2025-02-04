@@ -455,4 +455,17 @@ baseline.json
 
 # Ignore cache created with the Angular CLI.
 .angular/
-/Shiny.Chainsaw.Web
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+/Shiny.Chainsaw.Web/.vscode
