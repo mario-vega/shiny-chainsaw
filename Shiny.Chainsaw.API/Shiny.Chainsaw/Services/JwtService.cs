@@ -37,5 +37,6 @@ namespace Shiny.Chainsaw.Services
 		{
 			var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.EMail) };
 			return claims;
+		}
 	}
 }

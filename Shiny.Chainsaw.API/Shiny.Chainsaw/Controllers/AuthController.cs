@@ -45,7 +45,7 @@ namespace Shiny.Chainsaw.Controllers
 				var securityToken = _jwtService.GetJwtSecurityToken(user);
 				// Serialize the token into JWT format.
 				var jwt = new JwtSecurityTokenHandler().WriteToken(securityToken);
-				var expires_sec = Convert.ToInt32(_configuration["JwtSettings:ExpirationTimeInMinutes"]) * 60);
+				var expires_sec = Convert.ToInt32(_configuration["JwtSettings:ExpirationTimeInMinutes"]) * 60;
 
 				var token = new LoginToken
 				{
