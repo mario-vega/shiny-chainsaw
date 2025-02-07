@@ -35,10 +35,10 @@ namespace Shiny.Chainsaw.Controllers
 				if (user == null)
 					return Unauthorized(new LoginToken
 					{
-						access_token = null,
-						user_id = null,
-						expires_in = 0,
-						token_type = "bearer"
+						accessToken = null,
+						userId = null,
+						expiresIn = 0,
+						tokenType = "bearer"
 					});
 				
 				// Generate a token by user.
@@ -49,10 +49,10 @@ namespace Shiny.Chainsaw.Controllers
 
 				var token = new LoginToken
 				{
-					access_token = jwt,
-					expires_in = expires_sec,
-					user_id = user.Id.ToString(),
-					token_type = "Bearer"
+					accessToken = jwt,
+					expiresIn = expires_sec,
+					userId = user.Id.ToString(),
+					tokenType = "Bearer"
 				};
 
 				return Ok(token);

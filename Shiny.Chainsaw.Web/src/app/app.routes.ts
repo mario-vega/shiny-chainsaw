@@ -3,11 +3,12 @@ import { CheckinComponent } from './checkin/checkin.component';
 import { CustomersComponent } from './customers/customers.component';
 import { UsersComponent } from './users/users.component';
 import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './services/auth-guard.service';
 
 export const routes: Routes = [
-    { path: 'home', component: CheckinComponent },
-    { path: 'customers', component: CustomersComponent },
-    { path: 'users', component: UsersComponent },
     { path: 'login', component: LoginComponent },
-    { path: '', redirectTo: 'login', pathMatch: 'full' }
+    { path: 'home', component: CheckinComponent, canActivate: [AuthGuard] },
+    { path: 'customers', component: CustomersComponent, canActivate: [AuthGuard]  },
+    { path: 'users', component: UsersComponent, canActivate: [AuthGuard]  },
+    { path: '**', redirectTo: 'login' }
 ];

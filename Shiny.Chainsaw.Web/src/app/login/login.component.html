@@ -1,19 +1,19 @@
 <div class="container">
     <div class="position-absolute top-50 start-50 translate-middle">
-        <form>
+        <form (ngSubmit)="login()">
             <div class="row mb-3">
                 <div class="col">
-                    <input type="text" class="form-control form-control-lg" id="userName" placeholder="Username">
+                    <input type="text" id="username" [(ngModel)]="credentials.username" name="textUsername" placeholder="Username" class="form-control form-control-lg" required>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col">
-                    <input type="text" class="form-control form-control-lg" id="password" placeholder="Password">
+                    <input type="password" id="password" [(ngModel)]="credentials.password" name="textPassword" placeholder="Password" class="form-control form-control-lg" required>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col">
-                    <button type="submit" class="btn btn-primary btn-lg float-right">Log In</button>
+                    <button type="submit" class="btn btn-primary btn-lg float-right" name="buttonSubmit">Log In</button>
                 </div>
             </div>
         </form>

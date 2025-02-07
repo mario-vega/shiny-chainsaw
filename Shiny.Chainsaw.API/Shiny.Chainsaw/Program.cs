@@ -20,6 +20,15 @@ builder.Services.AddScoped<ICheckinRepository, CheckinRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddCors(opt =>
+{
+	opt.AddPolicy("CorsPolicy", policyBuilder =>
+	{
+		policyBuilder.AllowAnyHeader()
+						.AllowAnyMethod()
+						.WithOrigins("http://localhost:4200");
+	});
+});
 builder.Services
 	.AddAuthentication(opt =>
 		{
@@ -50,10 +59,9 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
+app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
